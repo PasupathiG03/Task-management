@@ -7,10 +7,18 @@ function Dashboard({ user }) {
 
   const triggerRefresh = () => setRefresh(!refresh);
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    window.location.reload();  // reload app to redirect to login
+  };
+
   return (
     <div>
       <h2>Dashboard</h2>
       <p>Welcome, {user.username} ({user.is_admin ? 'Admin' : 'User'})</p>
+      
+      <button onClick={handleLogout}>Logout</button>
+
       {user.is_admin && <TaskForm onTaskCreated={triggerRefresh} />}
       <TaskList refresh={refresh} />
     </div>
@@ -18,3 +26,6 @@ function Dashboard({ user }) {
 }
 
 export default Dashboard;
+
+
+

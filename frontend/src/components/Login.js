@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { loginUser } from '../services/api';
+import { loginUser, api} from '../services/api';
 
 function Login({ onLogin }) {
   const [username, setUsername] = useState('');
@@ -7,14 +7,17 @@ function Login({ onLogin }) {
 
   const handleLogin = async () => {
     try {
-      const token = await loginUser(username, password);
-      alert('Login successful');
-      onLogin(); // trigger dashboard load
+      const res = await api.post('/users/login/', { username, password });
+      const token = res.data.access; // JWT access token
+      localStorage.setItem('token', token);  // store in localStorage
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`; // set for Axios
+      onLogin(); // callback to refresh user in App.js
     } catch (err) {
-      alert('Invalid credentials');
       console.error(err);
+      alert("Login failed");
     }
   };
+
 
   return (
     <div>

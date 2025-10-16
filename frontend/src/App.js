@@ -4,14 +4,22 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import { setAuthToken, api } from './services/api';
 
+
 function App() {
   const [user, setUser] = useState(null);
+
+
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if(token){
       setAuthToken(token);
-      api.get('users/me/').then(res => setUser(res.data));
+      api.get('users/me/')
+        .then(res => setUser(res.data))
+        .catch(err => {
+            console.error("Unauthorized!", err);
+            localStorage.removeItem('token'); // clear invalid token
+        });
     }
   }, []);
 
@@ -33,3 +41,7 @@ function App() {
 }
 
 export default App;
+
+
+
+
