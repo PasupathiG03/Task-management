@@ -1,17 +1,18 @@
 # Python
-*.pyc
-__pycache__/
 venv/
-.env
+__pycache__/
+*.pyc
+*.pyo
 
 # Django
 *.sqlite3
-/media/
+*.log
+media/
 
 # Node / React
-node_modules/
-build/
-.env
+frontend/node_modules/
+frontend/build/
 
-# VSCode
-.vscode/
+# OS files
+.DS_Store
+*.swp
